@@ -17,11 +17,16 @@ context = 10
 #Audio truncation flag and size
 audio_reshape = 1
 audio_reshape_size = 48000
+#
+# if PC_TRAINING_TESTING:
+#     current_directory = os.getcwd()
+# else:
+#     current_directory = os.getcwd()+'/Projects/MFCC_STFT_Framework'
 
-if PC_TRAINING_TESTING:
-    current_directory = os.getcwd()
-else:
-    current_directory = os.getcwd()+'/Projects/MFCC_STFT_Framework'
+# Here we assume that the directory of 'MFCC_STFT.py' is either the same as for this file or one directory above.
+current_directory = os.path.dirname(os.path.abspath(__file__))
+if not os.path.isfile(os.path.join(current_directory, 'MFCC_STFT.py')):
+    current_directory = os.path.dirname(current_directory)
 
 NETWORK_TYPE = 'AE'
 
