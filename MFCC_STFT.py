@@ -17,31 +17,31 @@ from sklearn import preprocessing
 import scipy.io.wavfile as WAV
 from keras import backend as K
 import NetCode.paper_spectr_plot as paper_spectr_plot
+import keras
+import theano
+import argparse
+import imp
+from PATH_VAR_INIT import PC_TRAINING_TESTING
 
 
 print '\nScript Starts on: '+time.strftime("%d-%m-%Y")
 print 'Time: '+time.strftime("%H_%M_%S")
 
-import keras
 print '\nKeras Version = '+keras.__version__
 
-import theano
 print 'Theano Version = '+theano.__version__
 
-import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("--PATH_VAR_INIT_ref", default="PATH_VAR_INIT.py")
 args = parser.parse_args()
 PATH_VAR_INIT_ref = args.PATH_VAR_INIT_ref
-import imp
+
 print '\nConfiguration File Used: '+PATH_VAR_INIT_ref
-if PATH_VAR_INIT_ref!="PATH_VAR_INIT.py":
+if PATH_VAR_INIT_ref != "PATH_VAR_INIT.py":
     imp.load_source("PATH_VAR_INIT", PATH_VAR_INIT_ref)
 
-from PATH_VAR_INIT import PC_TRAINING_TESTING
 
-if PC_TRAINING_TESTING==False:
-
+if PC_TRAINING_TESTING:
     import matplotlib.pyplot as plt
     plt.switch_backend('Agg')
     # from IPython import embed
