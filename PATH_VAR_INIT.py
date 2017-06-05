@@ -1,7 +1,7 @@
 import os
 import numpy as np
 
-PC_TRAINING_TESTING =False
+PC_TRAINING_TESTING = True
 
 #FFT parameters settings
 NFFT = 2048
@@ -17,11 +17,13 @@ context = 10
 #Audio truncation flag and size
 audio_reshape = 1
 audio_reshape_size = 48000
+#
+# if PC_TRAINING_TESTING:
+#     current_directory = os.getcwd()
+# else:
+#     current_directory = os.getcwd()+'/Projects/MFCC_STFT_Framework'
 
-if PC_TRAINING_TESTING:
-    current_directory = os.getcwd()
-else:
-    current_directory = os.getcwd()+'/Projects/MFCC_STFT_Framework'
+current_directory = os.path.dirname(os.path.abspath(__file__))
 
 NETWORK_TYPE = 'AE'
 
