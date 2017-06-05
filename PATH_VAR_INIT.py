@@ -17,13 +17,11 @@ context = 10
 #Audio truncation flag and size
 audio_reshape = 1
 audio_reshape_size = 48000
-#
-# if PC_TRAINING_TESTING:
-#     current_directory = os.getcwd()
-# else:
-#     current_directory = os.getcwd()+'/Projects/MFCC_STFT_Framework'
 
-current_directory = os.path.dirname(os.path.abspath(__file__))
+if PC_TRAINING_TESTING:
+    current_directory = os.getcwd()
+else:
+    current_directory = os.getcwd()+'/Projects/MFCC_STFT_Framework'
 
 NETWORK_TYPE = 'AE'
 

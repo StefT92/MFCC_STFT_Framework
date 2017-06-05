@@ -22,7 +22,7 @@ import theano
 import argparse
 import imp
 from PATH_VAR_INIT import PC_TRAINING_TESTING
-
+import matplotlib.pyplot as plt
 
 print '\nScript Starts on: '+time.strftime("%d-%m-%Y")
 print 'Time: '+time.strftime("%H_%M_%S")
@@ -42,14 +42,13 @@ if PATH_VAR_INIT_ref != "PATH_VAR_INIT.py":
 
 
 if PC_TRAINING_TESTING:
-    import matplotlib.pyplot as plt
     plt.switch_backend('Agg')
     # from IPython import embed
 else:
     # import matplotlib
     # matplotlib.use('Agg')
     from IPython import embed
-    import matplotlib.pyplot as plt
+    pass
 
 
 def invlogamplitude(S):
@@ -113,6 +112,7 @@ def custom_cost_function(y_true, y_pred):
 def dataExtraction_MFCC_Recon(NFFT, hop_length_FFT, fs, N_MFCC, training_dataset_dir, testing_dataset_dir, audio_format,audio_reshape, audio_reshape_size, MAKE_DATASET, TRAIN_TEST):
 
     if MAKE_DATASET == 1:
+        print 'Making dataset...'
         file_audio_index = 1
         filename_list_training = []
         lst = os.listdir(training_dataset_dir)
@@ -133,7 +133,6 @@ def dataExtraction_MFCC_Recon(NFFT, hop_length_FFT, fs, N_MFCC, training_dataset
 
                         Pxx_c = librosa.stft(audio_in, n_fft=NFFT, win_length=NFFT, hop_length=hop_length_FFT,
                                              center=True, window=np.blackman(NFFT))
-
 
                         S = librosa.feature.melspectrogram(S=Pxx_c, sr=fs, n_mels=128, n_fft=NFFT,
                                                            hop_length=hop_length_FFT)
@@ -231,7 +230,7 @@ def dataExtraction_MFCC_Recon(NFFT, hop_length_FFT, fs, N_MFCC, training_dataset
         np.savetxt(testing_dataset_dir + '/filenames.txt', filename_list_testing, fmt='%s', newline='\n')
 
     else:
-
+        print 'Loading dataset...'
         if TRAIN_TEST == 1:
             X_train = pickle.load(open("%s/%s" % (training_dataset_dir, 'TRAINING_DATASET.p'), 'rb'))
             X_test = pickle.load(open("%s/%s" % (testing_dataset_dir, 'TESTING_DATASET.p'), 'rb'))
@@ -259,6 +258,7 @@ def dataExtraction_MFCC_Recon(NFFT, hop_length_FFT, fs, N_MFCC, training_dataset
 def dataExtraction(NFFT, hop_length_FFT, fs, N_MFCC, training_dataset_dir, testing_dataset_dir, audio_format, mfcc_shape_file_name, stft_shape_file_name,audio_reshape, audio_reshape_size,MAKE_DATASET, TRAIN_TEST):
 
     if MAKE_DATASET == 1:
+        print 'Making dataset...'
         file_audio_index = 1
         filename_list_training = []
         lst = os.listdir(training_dataset_dir)
@@ -374,7 +374,7 @@ def dataExtraction(NFFT, hop_length_FFT, fs, N_MFCC, training_dataset_dir, testi
         np.savetxt(testing_dataset_dir + '/filenames.txt', filename_list_testing, fmt='%s', newline='\n')
 
     else:
-
+        print 'Loading dataset...'
         tensor_shape = pickle.load(open(stft_shape_file_name, 'rb'))
         mfcc_shape = pickle.load(open(mfcc_shape_file_name, 'rb'))
 
@@ -591,7 +591,6 @@ def spec2Audio(audio_mat,audio_mat_target, spec_mat, file_name, folder, fs, NFFT
 
 
 def main():
-
     import random
     random.seed(6)
     np.random.seed(6)
@@ -603,14 +602,13 @@ def main():
     from PATH_VAR_INIT import systematic_save_output_folder, output_recap_file, history_file, NETWORK_TYPE
     from PATH_VAR_INIT import context, final_layer_activation, CUSTOM_COST_FUNCTION, feature_range_normalization
 
-
-    if NETWORK_TYPE=='MLP':
-
+    if NETWORK_TYPE == 'MLP':
+        print 'Detected MLP as NETWORK_TYPE'
         from PATH_VAR_INIT import N_Layers, layer_dim, dropout_vec
 
         mfcc_shape_file_name=current_directory+'/mfcc_shape_file.p'
         stft_shape_file_name= current_directory+'/stft_shape_file.p'
-        X_train, Y_train, X_test, Y_test, mfcc_shape, tensor_shape=dataExtraction(NFFT, hop_length_FFT, fs, N_MFCC, training_dataset_dir, testing_dataset_dir, audio_format,
+        X_train, Y_train, X_test, Y_test, mfcc_shape, tensor_shape = dataExtraction(NFFT, hop_length_FFT, fs, N_MFCC, training_dataset_dir, testing_dataset_dir, audio_format,
                        mfcc_shape_file_name, stft_shape_file_name, audio_reshape, audio_reshape_size,
                        MAKE_DATASET, TRAIN_TEST)
 
@@ -669,8 +667,8 @@ def main():
 
         PostUtil.systematic_test(output_folder=systematic_save_output_folder,trained_network=trained_network, output_recap_file=output_recap_file, history_file=history_file,  network_test_output='network_test_output.txt', network_target_output='network_target_output.txt',TRAIN_TEST=TRAIN_TEST,NETWORK_TYPE=NETWORK_TYPE, testing_register_type='Audio_Output',ERROR_AVE=np.mean(diff_norm),current_directory=current_directory,PATH_VAR_INIT_ref=PATH_VAR_INIT_ref)
 
-    elif NETWORK_TYPE=='AE':
-
+    elif NETWORK_TYPE == 'AE':
+        print 'Detected AE as NETWORK_TYPE'
         from PATH_VAR_INIT import N_Layers, frame_length, layer_dim, N_layers_MLP,N_Layers_Conv,maxPooling,N_filters,CNN_kernel_sizes
 
         X_train, Y_train, X_test, Y_test = dataExtraction_MFCC_Recon(NFFT, hop_length_FFT, fs, N_MFCC, training_dataset_dir, testing_dataset_dir,
