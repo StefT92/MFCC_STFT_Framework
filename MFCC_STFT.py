@@ -18,6 +18,7 @@ import scipy.io.wavfile as WAV
 from keras import backend as K
 import NetCode.paper_spectr_plot as paper_spectr_plot
 
+#test 
 
 print '\nScript Starts on: '+time.strftime("%d-%m-%Y")
 print 'Time: '+time.strftime("%H_%M_%S")
