@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -l nodes=1:ppn=1
+#PBS -W x=GRES:gpu@1
+#PBS -l walltime=96:00:00
+
+export PATH=$PATH:/usr/local/cuda/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
+
+nvidia-smi
+
+source ~/virtualenvs/theano_keras/bin/activate
+
+THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32,optimizer_including=cudnn python ~/Projects/MFCC_STFT_Framework/MFCC_STFT.py --PATH_VAR_INIT_ref=$PATH_VAR_INIT_ref >~/Projects/MFCC_STFT_Framework/log_training_MFCC_STFT.txt
+
+env
+
