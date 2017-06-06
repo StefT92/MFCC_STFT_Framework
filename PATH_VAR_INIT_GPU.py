@@ -51,7 +51,7 @@ audio_format = ".wav"
 # features_format = ".p"
 
 #Training FLAGS and SETTINGS
-MAKE_DATASET = 1                #If 1 dataset files are made from folders. If 0 dataset are imported from folders.
+MAKE_DATASET = 0                #If 1 dataset files are made from folders. If 0 dataset are imported from folders.
 TRAIN_TEST = 1                  #Training or testing
 VALIDATION = 1                  #If 1 we train and validate on a validation split
 
@@ -71,7 +71,7 @@ learn_rate = 1e-5
 MomentumMax = 0.9
 decay = 1e-6
 minibatch_size = 400
-batchnormalization = 1
+batchnormalization = -1
 
 feature_range_normalization = (-1,1)
 
@@ -87,16 +87,16 @@ if NETWORK_TYPE == 'MLP':
 
 if NETWORK_TYPE == 'AE':
 
-    frame_length = 256
+    frame_length = 2048
 
     audio_reshape_size = frame_length*(audio_reshape_size/frame_length)
 
-    layer_dim = [1024,1024,1024,1024]
+    layer_dim = [256, 128, 128, 256]
     N_layers_MLP = len(layer_dim)
-    maxPooling = [2,2,2,2]
-    N_filters = [32,32,64,64]
+    N_filters = [32, 64, 128]
     N_Layers_Conv = len(N_filters)
-    CNN_kernel_sizes = [7,7,3,3]
+    CNN_kernel_sizes = [5, 5, 5]
+    maxPooling = [2, 2, 2]
 
     N_Layers = len(layer_dim)
 
