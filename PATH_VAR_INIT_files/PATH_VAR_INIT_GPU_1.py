@@ -30,7 +30,7 @@ if not os.path.isfile(os.path.join(current_directory, 'MFCC_STFT.py')):
 
 NETWORK_TYPE = 'AE'
 
-dataset_name = 'Dataset'
+dataset_name = 'Subset'
 dataset_type = '_Clean_Speech'
 
 #Tr-Te directory. Output directory
