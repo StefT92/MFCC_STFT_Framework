@@ -51,7 +51,7 @@ audio_format = ".wav"
 # features_format = ".p"
 
 #Training FLAGS and SETTINGS
-MAKE_DATASET = 0                #If 1 dataset files are made from folders. If 0 dataset are imported from folders.
+MAKE_DATASET = 1                #If 1 dataset files are made from folders. If 0 dataset are imported from folders.
 TRAIN_TEST = 1                  #Training or testing
 VALIDATION = 1                  #If 1 we train and validate on a validation split
 
