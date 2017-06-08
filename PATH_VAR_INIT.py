@@ -64,7 +64,7 @@ LOAD_MODEL = True
 optimizer = 'adamax'
 activations = 'relu'
 final_layer_activation = 'linear'
-maxEpochs = 5000
+maxEpochs = 2
 ES_epochs = 500
 dropout = 0
 learn_rate = 1e-5
@@ -91,12 +91,12 @@ if NETWORK_TYPE == 'AE':
 
     audio_reshape_size = frame_length*(audio_reshape_size/frame_length)
 
-    layer_dim = [1024,1024,1024,1024]
+    layer_dim = [16, 16]
     N_layers_MLP = len(layer_dim)
-    maxPooling = [2,2,2,2]
-    N_filters = [32,32,64,64]
+    maxPooling = [2, 2]
+    N_filters = [8, 8]
     N_Layers_Conv = len(N_filters)
-    CNN_kernel_sizes = [7,7,3,3]
+    CNN_kernel_sizes = [7, 7]
 
     N_Layers = len(layer_dim)
 
