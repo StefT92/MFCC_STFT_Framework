@@ -286,27 +286,30 @@ def MainAE_CNN(N_Layers_Conv, N_layers_MLP, features_length, layer_dim, maxPooli
 
         in_flatten_dim = model.output_shape
         model.add(Flatten())
-        out_flatten_dim = model.output_shape[-1]
+        intermediate_dim = model.output_shape[-1]
 
         for i in xrange(0, N_layers_MLP):
-
             model.add((Dense(layer_dim[i], activation=activations, init='normal')))
             if batchnormalization != -1:
                 model.add(BatchNormalization(epsilon=1e-05, mode=0, momentum=0.9, weights=None))
 
-        model.add((Dense(out_flatten_dim, activation=activations, init='normal')))
+        for i in reversed(xrange(0, N_layers_MLP)):
+            model.add((Dense(layer_dim[i], activation=activations, init='normal')))
+            if batchnormalization != -1:
+                model.add(BatchNormalization(epsilon=1e-05, mode=0, momentum=0.9, weights=None))
+
+        model.add((Dense(intermediate_dim, activation=activations, init='normal')))
         model.add(Reshape(target_shape=(in_flatten_dim[1],in_flatten_dim[2])))
 
-    for i in xrange(0, N_Layers_Conv):
+    for i in reversed(xrange(0, N_Layers_Conv)):
 
-        model.add(Convolution1D(N_filters[len(N_filters) - i - 1], CNN_kernel_sizes[len(CNN_kernel_sizes) - i - 1],
-                                activation=activations, border_mode='same'))
+        model.add(Convolution1D(N_filters[i], CNN_kernel_sizes[i], activation=activations, border_mode='same'))
 
         if batchnormalization != -1:
             model.add(BatchNormalization(epsilon=1e-05, mode=0, momentum=0.9, weights=None))
 
-        if maxPooling[len(maxPooling) - i - 1] != 0:
-            model.add(UpSampling1D(maxPooling[len(maxPooling) - i - 1]))
+        if maxPooling[i] != 0:
+            model.add(UpSampling1D(maxPooling[i]))
 
     model.add(Flatten())
 
